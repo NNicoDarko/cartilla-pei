@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartilla Interactiva - PEI | CIPA Mentes Etílicas</title>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1E3A8A;
+            --secondary: #0284C7;
+            --accent: #F59E0B;
+            --bg-light: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #0F172A 0%, #1E3A8A 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .brand {
+            padding: 25px 20px;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .brand h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand p {
+            font-size: 0.8rem;
+            color: #94A3B8;
+            margin-top: 5px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        nav li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            color: #CBD5E1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        nav li a:hover, nav li a.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: var(--accent);
+        }
+
+        /* Main Content */
+        main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 40px;
+            max-width: 1100px;
+        }
+
+        header.hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(30, 58, 138, 0.15);
+        }
+
+        header.hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        header.hero p {
+            font-size: 1.05rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Modules Sections */
+        .module-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            scroll-margin-top: 40px;
+        }
+
+        .module-title {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary);
+            font-size: 1.5rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .module-title i {
+            color: var(--secondary);
+        }
+
+        p, ul, ol {
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 15px;
+        }
+
+        /* Interactive Grid & Cards */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+            background: #F8FAFC;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            border-color: var(--secondary);
+        }
+
+        .card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            background: #EFF6FF;
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .callout.warning {
+            background: #FFFBEB;
+            border-left-color: var(--accent);
+        }
+
+        /* Interactive Accordion */
+        .accordion {
+            margin-top: 15px;
+        }
+
+        .accordion-item {
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: #F1F5F9;
+            padding: 15px 20px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .accordion-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            aside {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+            body {
+                flex-direction: column;
+            }
+            main {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navegación -->
+    <aside>
+        <div class="brand">
+            <h2><i class="fa-solid fa-book-open"></i> CARTILLA PEI</h2>
+            <p>CIPA: Mentes Etílicas</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio" class="active"><i class="fa-solid fa-house"></i> Inicio</a></li>
+                <li><a href="#m1"><i class="fa-solid fa-circle-info"></i> 1. ¿Qué es el PEI?</a></li>
+                <li><a href="#m2"><i class="fa-solid fa-scale-balanced"></i> 2. Marco Normativo</a></li>
+                <li><a href="#m3"><i class="fa-solid fa-users-gear"></i> 3. Participación</a></li>
+                <li><a href="#m4"><i class="fa-solid fa-cubes"></i> 4. Componentes</a></li>
+                <li><a href="#m5"><i class="fa-solid fa-map-location-dot"></i> 5. Análisis Contextual</a></li>
+                <li><a href="#m6"><i class="fa-solid fa-diagram-next"></i> 6. Etapas del PEI</a></li>
+                <li><a href="#m7"><i class="fa-solid fa-brain"></i> 7. Reflexión Crítica</a></li>
+                <li><a href="#m8"><i class="fa-solid fa-bookmark"></i> Referencias APA</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main>
+        <!-- Hero / Encabezado -->
+        <header id="inicio" class="hero">
+            <h1>Construyendo Escuela, Transformando Realidades</h1>
+            <p>Guía pedagógica e interactiva para la formulación, desarrollo y vivencia del Proyecto Educativo Institucional (PEI).</p>
+            <div class="badge-container">
+                <span class="badge"><i class="fa-solid fa-user-group"></i> Nicolle Castro & Fernando Rodríguez</span>
+                <span class="badge"><i class="fa-solid fa-school"></i> Ref: CEDID Ciudad Bolívar</span>
+            </div>
+        </header>
+
+        <!-- Módulo 1 -->
+        <section id="m1" class="module-section">
+            <h3 class="module-title"><i class="fa-solid fa-circle-info"></i> 1. ¿Qué es el PEI y cuál es su importancia?</h3>
+            <p>El <strong>Proyecto Educativo Institucional (PEI)</strong> es la carta de navegación y la carta de identidad de todo establecimiento educativo en Colombia. Lejos de ser una exigencia administrativa estática, el PEI define el horizonte pedagógico, ético y social de la comunidad escolar.</p>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h4><i class="fa-solid fa-compass"></i> Autonomía Escolar</h4>
+                    <p>Otorga la libertad legal y pedagógica para que cada institución construya sus metas de aprendizaje y convivencia respetando su entorno cultural[cite: 2, 4].</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fa-solid fa-seedling"></i> Formación Ciudadana</h4>
+                    <p>Permite consolidar la <em>subjetividad política</em>, formando estudiantes críticos, reflexivos y comprometidos con la transformación social[cite: 1, 6].</p>
+                </div>
+            </div>
+
+            <div class="callout">
+                <strong><i class="fa-solid fa-lightbulb"></i> Aporte Clave:</strong>
+                <p>El PEI cobra verdadero sentido cuando rompe el "corte y pegue" y se convierte en una construcción viva fundamentada en la realidad de los estudiantes[cite: 2].</p>
+            </div>
+        </section>
+
+        <!-- Módulo 2 -->
+        <section id="m2" class="module-section">
+            <h3 class="module-title"><i class="fa-solid fa-scale-balanced"></i> 2. Marco Normativo de Orientación</h3>
+            <p>El marco legal colombiano brinda el sustento jurídico que le otorga autonomía a las instituciones educativas para la planeación escolar[cite: 2]:</p>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fa-solid fa-gavel"></i> Ley 115 de 1994 (Ley General de Educación)</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p><strong>Artículo 73:</strong> Obliga a cada institución a elaborar y poner en práctica un PEI que responda a las necesidades locales y regionales[cite: 2, 5].</p>
+                        <p><strong>Artículo 77:</strong> Consagra la <em>autonomía escolar</em> para adaptar el plan de estudios, los métodos de enseñanza y las actividades culturales[cite: 4].</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fa-solid fa-file-contract"></i> Decreto 1075 de 2015 (Decreto Único del Sector Educación)</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Compila y reglamenta las disposiciones del histórico Decreto 1860 de 1994, definiendo los aspectos metodológicos, los componentes mínimos y los mecanismos de participación del Gobierno Escolar[cite: 2, 5].</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Módulo 3 -->
+        <section id="m3" class="module-section">
+            <h3 class="module-title"><i class="fa-solid fa-users-gear"></i> 3. Participación y Responsabilidades</h3>
+            <p>La formulación y vivencia del PEI no es un acto exclusivo de la dirección, sino una construcción colectiva de la comunidad educativa[cite: 5]:</p>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Actor Educativo</th>
+                            <th>Responsabilidad Principal en el PEI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Directivos Docentes</strong></td>
+                            <td>Liderar, coordinar y garantizar la coherencia pedagógica y administrativa[cite: 5].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Docentes</strong></td>
+                            <td>Transformar el PEI en el aula mediante prácticas pedagógicas innovadoras y contextualizadas[cite: 3, 7].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Estudiantes</strong></td>
+                            <td>Participar activamente en la construcción de la cultura escolar y los órganos de gobierno[cite: 3, 5, 6].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Padres / Familias</strong></td>
+                            <td>Aportar desde la comunidad circundante y participar en la evaluación institucional[cite: 6].</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Módulo 4 -->
+        <section id="m4" class="module-section">
+            <h3 class="module-title"><i class="fa-solid fa-cubes"></i> 4. Componentes Fundamentales del PEI</h3>
+            <p>De acuerdo con la normativa y los avances pedagógicos, el PEI se estructura en cuatro componentes interconectados[cite: 2, 5]:</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4><i class="fa-solid fa-eye"></i> 1. Componente Teleológico / Contexto</h4>
+                    <p>Misión, visión, valores y caracterización del entorno socioeconómico[cite: 2, 5]. <em>(Ejemplo: CEDID Ciudad Bolívar con su enfoque en pertinencia social)</em>.</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fa-solid fa-sitemap"></i> 2. Componente Administrativo</h4>
+                    <p>Manual de Convivencia, estructura de Gobierno Escolar y gestión de recursos[cite: 5].</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fa-solid fa-chalkboard-user"></i> 3. Componente Pedagógico</h4>
+                    <p>Modelo de enseñanza, planes de estudio y sistema evaluativo[cite: 3, 7]. Propone superar la instrucción mecánica e integrar la <em>ecología de saberes</em>[cite: 3, 7].</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fa-solid fa-handshake-angle"></i> 4. Componente Comunitario</h4>
+                    <p>Proyectos de proyección social, articulación técnica (ej. SENA) y servicios a la comunidad local[cite: 6].</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Módulo 5 -->
+        <section id="m5" class="module-section">
+            <h3 class="module-title"><i class="fa-solid fa-map-location-dot"></i> 5. Análisis del Contexto Social, Cultural y Económico</h3>
+            <p>Ningún PEI puede ser exitoso si ignora las realidades territoriales de sus estudiantes[cite: 5].</p>
+            
+            <div class="callout warning">
+                <h4><i class="fa-solid fa-building-flag"></i> Estudio de Caso: CEDID Ciudad Bolívar</h4>
+                <p>El Colegio CEDID Ciudad Bolívar orienta su PEI bajo el principio de <strong>"Pertinencia Social"</strong>. Al ubicarse en una zona con altos desafíos socioeconómicos, su PEI articula la educación media con la formación técnica y tecnológica, generando alternativas de vida digna e inclusión para los jóvenes de la localidad.</p>
+            </div>
+        </section>
+
+        <!-- Módulo 6 -->
+        <section id="m6" class="module-section">
+            <h3 class="module-title"><i class="fa-solid fa-diagram-next"></i> 6. Etapas para la Construcción y Evaluación</h3>
+            <p>El desarrollo del PEI es un proceso cíclico y dinámico:</p>
+
+            <ol style="padding-left: 20px;">
+                <li><strong>Diagnóstico Participativo:</strong> Identificación de necesidades y problemáticas[cite: 2, 5].</li>
+                <li><strong>Formulación y Concertación:</strong> Redacción consensuada con la comunidad[cite: 5].</li>
+                <li><strong>Implementación y Vivencia:</strong> Aplicación cotidiana en el aula y la gestión[cite: 3, 6].</li>
+                <li><strong>Evaluación y Actualización:</strong> Ajuste continuo para evitar que se vuelva un documento obsoleto[cite: 2].</li>
+            </ol>
+        </section>
+
+        <!-- Módulo 7 con Video de YouTube Integrado -->
+        <section id="m7" class="module-section">
+            <h3 class="module-title"><i class="fa-solid fa-brain"></i> 7. Reflexión Crítica: Subjetividad Política y Pedagogía Rizomática</h3>
+            <p>Basado en los planteamientos críticos de Mosquera & Rodríguez (2018)[cite: 1]:</p>
+
+            <ul style="padding-left: 20px;">
+                <li><strong>Superación del Mercado Educativo:</strong> El PEI no debe someterse únicamente a las pruebas estandarizadas (PISA, SABER) ni a lógicas empresariales de adiestramiento[cite: 2, 8].</li>
+                <li><strong>Ecología de Saberes:</strong> Se debe promover un diálogo constante entre el macro-currículo (estándares nacionales) y los saberes comunitarios propios del territorio[cite: 7, 9].</li>
+                <li><strong>Prácticas Rizomáticas:</strong> El docente debe actuar como un mediador creativo, dispuesto al asombro y a guiar procesos de subjetivación libre y transformadora[cite: 3, 9, 10, 11].</li>
+            </ul>
+
+            <!-- Video Interactivo de YouTube -->
+            <div style="margin-top: 25px;">
+                <h4 style="color: var(--primary); margin-bottom: 10px;"><i class="fa-solid fa-video"></i> Recurso Audiovisual de Apoyo</h4>
+                <p style="font-size: 0.9rem; color: #64748B; margin-bottom: 15px;">Espacio de reflexión sobre las prácticas pedagógicas y el sentido del PEI:</p>
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <iframe src="https://www.youtube.com/embed/5qap5aO4i9A" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Referencias APA -->
+        <section id="m8" class="module-section">
+            <h3 class="module-title"><i class="fa-solid fa-bookmark"></i> Referencias Bibliográficas (APA 7ª Edición)</h3>
+            <ul>
+                <li>Colegio CEDID Ciudad Bolívar. (s. f.). <em>Proyecto Educativo Institucional (PEI): Educación con pertinencia social para la formación integral y el desarrollo humano</em>. Recuperado de https://cedidciudadbolivar.edu.co/PEI/</li>
+                <li>Colombia. Congreso de la República. (1994, 8 de febrero). <em>Ley 115 de 1994: Por la cual se expide la ley general de educación</em>. Diario Oficial No. 41.214[cite: 2].</li>
+                <li>Ministerio de Educación Nacional. (2015). <em>Decreto 1075 de 2015: Decreto Único Reglamentario del Sector Educación</em>. Bogotá, Colombia.</li>
+                <li>Mosquera Mosquera, C. E., & Rodríguez Lozano, M. N. (2018). Proyecto educativo como fundamento para pensar la subjetividad política desde la cultura escolar. <em>El Ágora USB</em>, 18(1), 256-268. http://dx.doi.org/10.21500/16578031.2771[cite: 1]</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Script Interactivo JS -->
+    <script>
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.fa-chevron-down');
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                content.style.display = "block";
+                icon.style.transform = "rotate(180deg)";
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('.module-section');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('nav li a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === `#${current}`) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
